@@ -29,153 +29,27 @@
     <property name="suffix" value=".jsp"/>
   </bean>
 
+  <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
-  <!--<context:component-scan base-package="com.junjie"/>-->
+  <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 
-  <!-- URL mapping -->
-  <bean id="urlMap"
-        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="urlMap">
-      <props>
-        <prop key="/signin.htm">signInController</prop>
-        <prop key="/hello.htm">helloworldController</prop>
-        <prop key="/signout.htm">signOutController</prop>
-      </props>
-    </property>
-  </bean>
-  <bean id="urlMapAuthenticate"
-        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="interceptors">
-      <list>
-        <ref bean="httpRequestInterceptor"/>
-      </list>
-    </property>
-    <property name="urlMap">
-      <props>
-        <prop key="/timesheetlist.htm">timesheetListController</prop>
-        <prop key="/enterhours.htm">enterHoursController</prop>
-      </props>
-    </property>
-  </bean>
-  <bean id="httpRequestInterceptor"
-        class="com.junjie.controller.HttpRequestInterceptor">
-    <property name="signInPage">
-      <value>signin.htm</value>
-    </property>
-    <property name="applicationSecurityManager">
-      <ref bean="applicationSecurityManager"/>
-    </property>
-  </bean>
+  <context:component-scan base-package="com.junjie"/>
 
-  <!-- Controllers -->
-  <bean id="urlFilenameController"
-        class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/>
-
-  <bean name="signInController"
-        class="com.junjie.controller.SignInController">
-    <property name="sessionForm">
-      <value>true</value>
-    </property>
-    <property name="formView">
-      <value>/signin</value>
-    </property>
-    <property name="successView">
-      <value>redirect:timesheetlist.htm</value>
-    </property>
-    <property name="commandClass">
-      <value>com.junjie.model.Employee</value>
-    </property>
-    <property name="validator">
-      <ref bean="signinValidator"/>
-    </property>
-    <property name="employeeManager">
-      <ref bean="employeeManager"/>
-    </property>
-    <property name="applicationSecurityManager">
-      <ref bean="applicationSecurityManager"/>
-    </property>
-    <property name="workdayJmxBean">
-      <ref bean="workdayJmxBean"/>
-    </property>
-  </bean>
-
-  <bean name="signOutController" class="com.junjie.controller.SignOutController">
-    <property name="applicationSecurityManager">
-      <ref bean="applicationSecurityManager"/>
-    </property>
-    <property name="successView">
-      <value>redirect:signin.htm</value>
-    </property>
-  </bean>
-
-  <bean name="timesheetListController"
-        class="com.junjie.controller.TimesheetListController">
-    <property name="timesheetManager">
-      <ref bean="timesheetManager"/>
-    </property>
-    <property name="applicationSecurityManager">
-      <ref bean="applicationSecurityManager"/>
-    </property>
-    <property name="workdayJmxBean">
-      <ref bean="workdayJmxBean"/>
-    </property>
-    <property name="successView">
-      <value>timesheetlist</value>
-    </property>
-  </bean>
-
-  	<bean name="enterHoursController"
-		class="com.junjie.controller.EnterHoursController">
-		<property name="sessionForm">
-			<value>true</value>
-		</property>
-		<property name="commandClass">
-			<value>com.junjie.model.Timesheet</value>
-		</property>
-		<property name="formView">
-			<value>enterhours</value>
-		</property>
-		<property name="successView">
-			<value>redirect:timesheetlist.htm</value>
-		</property>
-		<property name="validator">
-			<ref bean="enterHoursValidator" />
-		</property>
-		<property name="timesheetManager">
-			<ref bean="timesheetManager" />
-		</property>
-		<property name="departmentManager">
-			<ref bean="departmentManager" />
-		</property>
-		<property name="applicationSecurityManager">
-			<ref bean="applicationSecurityManager" />
-		</property>
-	</bean>
-
-  <!-- Validators -->
-  <bean id="enterHoursValidator"
-  class="com.junjie.controller.EnterHoursValidator" />
-  <bean id="signinValidator"
-        class="com.junjie.controller.SignInValidator"/>
-
+  <bean id="httpRequestInterceptor" class="com.junjie.controller.HttpRequestInterceptor"/>
 
   <!-- Utility classes -->
-  <bean id="applicationSecurityManager"
-        class="com.junjie.util.ApplicationSecurityManager"/>
-
+  <bean id="applicationSecurityManager" class="com.junjie.util.ApplicationSecurityManager"/>
   <bean id="workdayJmxBean" class="com.junjie.util.WorkdayJmxBean"/>
 
-  <bean name="helloworldController" class="com.junjie.controller.HelloWorldController"/>
-
-  	<!-- Resource Bundle -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>messages</value>
-			</list>
-		</property>
-	</bean>
+  <!-- Resource Bundle -->
+  <bean id="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basenames">
+      <list>
+        <value>messages</value>
+      </list>
+    </property>
+  </bean>
 
 
 </beans>

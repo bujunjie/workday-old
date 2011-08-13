@@ -1,11 +1,25 @@
 package com.junjie.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.junjie.model.Department;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import com.junjie.model.DepartmentManager;
@@ -17,107 +31,70 @@ import com.junjie.util.DateUtil;
 
 /**
  * Controller class for the "Enter Hours" screen
+ *
  * @author anil
  */
-public class EnterHoursController extends SimpleFormController
-{
-    private TimesheetManager timesheetManager = null;
-    private DepartmentManager departmentManager = null;
-    private ApplicationSecurityManager applicationSecurityManager;
-    public static final String TID = "tid";
+@Controller
+@RequestMapping("/enterhours.htm")
+public class EnterHoursController  {
+  private TimesheetManager timesheetManager;
+  private DepartmentManager departmentManager;
+  private ApplicationSecurityManager applicationSecurityManager;
 
-    /**
-     * Returns a new instance of Timesheet object if "tid" HTTP parameter is
-     * specified; other returns instance of object in database matching the
-     * value of the "tid" parameter.
-     * @see Timesheet
-     */
-    protected Object formBackingObject(HttpServletRequest request)
-    {
-        if (request.getParameter(TID) != null
-                && request.getParameter(TID).trim().length() > 0)
-            return timesheetManager.getTimesheet(Integer.parseInt(request
-                    .getParameter(TID)), false);
+  public static final String TID = "tid";
 
-        Timesheet timesheet = new Timesheet();
-        Employee employee = (Employee) applicationSecurityManager
-                .getEmployee(request);
-        timesheet.setEmployeeId(employee.getEmployeeId());
-        timesheet.setStatusCode("P");
-        timesheet.setPeriodEndingDate(DateUtil.getCurrentPeriodEndingDate());
-        return timesheet;
+  @Autowired
+  public EnterHoursController(TimesheetManager timesheetManager, DepartmentManager departmentManager,
+                              ApplicationSecurityManager applicationSecurityManager) {
+    this.timesheetManager = timesheetManager;
+    this.departmentManager = departmentManager;
+    this.applicationSecurityManager = applicationSecurityManager;
+  }
+
+  @ModelAttribute("timesheet")
+  public Timesheet populateTimesheet(HttpServletRequest request) {
+    Timesheet timesheet = new Timesheet();
+    Employee employee = (Employee) applicationSecurityManager
+      .getEmployee(request);
+    timesheet.setEmployeeId(employee.getEmployeeId());
+    timesheet.setStatusCode("P");
+    timesheet.setPeriodEndingDate(DateUtil.getCurrentPeriodEndingDate());
+    return timesheet;
+  }
+
+  @RequestMapping(method=RequestMethod.GET)
+  public String setupForm(HttpServletRequest request, HttpServletResponse response,@PathVariable("tid") int tid, ModelMap model) {
+    Timesheet timesheet =  timesheetManager.getTimesheet(tid, false);
+    model.put("timesheet", timesheet);
+    return "enterhours";
+  }
+
+
+  @ModelAttribute("departments")
+  public List<Department> populateDepartments() {
+    return departmentManager.getDepartments();
+  }
+
+  @InitBinder
+  public void initDataBinder(WebDataBinder binder) {
+//    binder.setRequiredFields(new String[] {"number", "name"});
+    binder.registerCustomEditor(int.class, new MinutesPropertyEditor());
+  }
+
+  @RequestMapping(method = RequestMethod.POST)
+  public String processSubmit(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("timesheet") Timesheet timesheet,
+                              BindingResult result, SessionStatus status) {
+    new EnterHoursValidator().validate(timesheet, result);
+    if (result.hasErrors()) {
+      return "enterhours";
     }
+    timesheetManager.saveTimesheet(timesheet);
+    request.getSession().setAttribute(
+      "message", "Timesheet saved successfully");
+//      getMessageSourceAccessor().getMessage(
+//        "message.enterhours.savesuccess"));
+    return "timesheetlist";
+  }
 
-    /**
-     * Registers the MinutesPropertyEditor
-     */
-    protected void initBinder(
-            HttpServletRequest request,
-            ServletRequestDataBinder binder) throws Exception
-    {
-        binder.registerCustomEditor(int.class, new MinutesPropertyEditor());
-    }
 
-    /**
-     * Returns Hashmap containing a list of all Department databse records
-     * @see com.junjie.model.Department
-     */
-    protected Map referenceData(HttpServletRequest request) throws Exception
-    {
-        HashMap model = new HashMap();
-        model.put("departments", departmentManager.getDepartments());
-
-        return model;
-    }
-
-    /**
-     * Saves Timesheet command object using 
-     * timesheetManager.saveTimesheet(timesheet);
-     * @see TimesheetManager
-     */
-    protected ModelAndView onSubmit(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Object command,
-            BindException errors)
-    {
-        Timesheet timesheet = (Timesheet) command;
-        timesheetManager.saveTimesheet(timesheet);
-        request.getSession().setAttribute(
-                "message",
-                getMessageSourceAccessor().getMessage(
-                        "message.enterhours.savesuccess"));
-        return new ModelAndView(getSuccessView());
-    }
-
-    public TimesheetManager getTimesheetManager()
-    {
-        return timesheetManager;
-    }
-
-    public void setTimesheetManager(TimesheetManager timesheetManager)
-    {
-        this.timesheetManager = timesheetManager;
-    }
-
-    public DepartmentManager getDepartmentManager()
-    {
-        return departmentManager;
-    }
-
-    public void setDepartmentManager(DepartmentManager departmentManager)
-    {
-        this.departmentManager = departmentManager;
-    }
-
-    public ApplicationSecurityManager getApplicationSecurityManager()
-    {
-        return applicationSecurityManager;
-    }
-
-    public void setApplicationSecurityManager(
-            ApplicationSecurityManager applicationSecurityManager)
-    {
-        this.applicationSecurityManager = applicationSecurityManager;
-    }
 }

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -24,7 +25,7 @@
       </tr>
       <tr>
         <td colspan="2">
-        <center><spring:bind path="command.*">
+        <center><spring:bind path="employee.*">
           <c:if test="${not empty status.errorMessages}">
             <c:forEach var="error" items="${status.errorMessages}">
               <font color="red"><c:out value="${error}" escapeXml="false" />
@@ -40,11 +41,11 @@
 
         <div align="center">
         <p>Please provide your authentication information below.</p>
-        <p>Employee Id: <spring:bind path="command.employeeId">
+        <p>Employee Id: <spring:bind path="employee.employeeId">
           <input name='<c:out value="${status.expression}"/>'
             value='<c:out value="${status.value}"/>' type="text" size="6"
             maxlength="6">
-        </spring:bind> &nbsp;Password: <spring:bind path="command.password">
+        </spring:bind> &nbsp;Password: <spring:bind path="employee.password">
           <input name='<c:out value="${status.expression}"/>'
             value='<c:out value="${status.value}"/>' type="password" size="8"
             maxlength="10">

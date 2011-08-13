@@ -2,6 +2,8 @@ package com.junjie.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.junjie.model.Employee;
 import com.junjie.util.ApplicationSecurityManager;
@@ -13,7 +15,8 @@ import com.junjie.util.ApplicationSecurityManager;
  */
 public class HttpRequestInterceptor extends HandlerInterceptorAdapter
 {
-    private String signInPage;
+
+  @Autowired
     private ApplicationSecurityManager applicationSecurityManager;
 
     /**
@@ -30,31 +33,11 @@ public class HttpRequestInterceptor extends HandlerInterceptorAdapter
                 .getEmployee(request);
         if (employee == null)
         {
-            response.sendRedirect(this.signInPage);
+            response.sendRedirect("signin.htm");
             return false;
         }
 
         return true;
     }
 
-    public String getSignInPage()
-    {
-        return signInPage;
-    }
-
-    public void setSignInPage(String signInPage)
-    {
-        this.signInPage = signInPage;
-    }
-
-    public ApplicationSecurityManager getApplicationSecurityManager()
-    {
-        return applicationSecurityManager;
-    }
-
-    public void setApplicationSecurityManager(
-            ApplicationSecurityManager applicationSecurityManager)
-    {
-        this.applicationSecurityManager = applicationSecurityManager;
-    }
 }

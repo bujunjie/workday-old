@@ -96,3 +96,15 @@
 3271 08:54:54:934 [main] DEBUG util.MyAspect  - com.junjie.model.TimesheetManagerImpl.saveTimesheet(
 	Timesheet{timesheetId=9, employeeId=1111, statusCode='A', departmentCode=IT, periodEndingDate=Sat Mar 11 00:00:00 PST 2006, minuteMon=480, minuteTue=480, minuteWed=480, minuteThu=480, minuteFri=480, mi...)
  execution time: 105 ms
+0    12:08:11:393 [main] INFO  support.ClassPathXmlApplicationContext  - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@1f4384c2: startup date [Sat Aug 13 12:08:11 PDT 2011]; root of context hierarchy
+248  12:08:11:641 [main] INFO  xml.XmlBeanDefinitionReader  - Loading XML bean definitions from class path resource [application-context.xml]
+873  12:08:12:266 [main] INFO  annotation.ClassPathBeanDefinitionScanner  - JSR-330 'javax.inject.Named' annotation found and supported for component scanning
+1609 12:08:13:002 [main] INFO  config.PropertyPlaceholderConfigurer  - Loading properties file from class path resource [db.properties]
+1676 12:08:13:069 [main] INFO  annotation.AutowiredAnnotationBeanPostProcessor  - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+1837 12:08:13:230 [main] INFO  support.DefaultListableBeanFactory  - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@239a029e: defining beans [org.springframework.aop.config.internalAutoProxyCreator,org.springframework.transaction.annotation.AnnotationTransactionAttributeSource#0,org.springframework.transaction.interceptor.TransactionInterceptor#0,org.springframework.transaction.config.internalTransactionAdvisor,myAspect,org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.annotation.internalPersistenceAnnotationProcessor,departmentManager,employeeManager,timesheetManager,org.springframework.beans.factory.config.PropertyPlaceholderConfigurer#0,dataSource,sessionFactory,springtestmessage,stringmessage]; root of factory hierarchy
+5084 12:08:16:477 [main] DEBUG util.MyAspect  - com.junjie.model.DepartmentManagerImpl.saveAll(
+	[Department{departmentCode='D0', name='Department 0'}, Department{departmentCode='D1', name='Department 1'}, Department{departmentCode='D2', name='Department 2'}, Department{departmentCode='D3', name='Depar...)
+ execution time: 292 ms
+5465 12:08:16:858 [main] DEBUG util.MyAspect  - com.junjie.model.DepartmentManagerImpl.getDepartments(
+	)
+ execution time: 380 ms

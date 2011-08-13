@@ -1,8 +1,11 @@
 package com.junjie.controller;
 
 import com.junjie.util.ApplicationSecurityManager;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,29 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author jbu
  */
-public class SignOutController implements Controller {
+@Controller
+@RequestMapping("signout.htm")
+@SessionAttributes("")
+public class SignOutController  {
+  @Autowired
   private ApplicationSecurityManager applicationSecurityManager;
-  private String successView;
 
-  @Override
-  public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+  @RequestMapping(method = RequestMethod.GET)
+  public String setupForm(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
     applicationSecurityManager.removeEmployee(httpServletRequest);
-    return new ModelAndView(getSuccessView());
+    return "signin";
   }
 
-  public ApplicationSecurityManager getApplicationSecurityManager() {
-    return applicationSecurityManager;
-  }
-
-  public void setApplicationSecurityManager(ApplicationSecurityManager applicationSecurityManager) {
-    this.applicationSecurityManager = applicationSecurityManager;
-  }
-
-  public String getSuccessView() {
-    return successView;
-  }
-
-  public void setSuccessView(String successView) {
-    this.successView = successView;
-  }
 }
