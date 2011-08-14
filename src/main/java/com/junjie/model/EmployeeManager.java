@@ -6,6 +6,8 @@ import java.util.List;
  * @author jbu
  */
 public interface EmployeeManager {
+  List getHourlyEmployees();
+
   List getEmployees();
 
   Employee getEmployeeById(int employeeId);

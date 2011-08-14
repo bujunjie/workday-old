@@ -12,12 +12,29 @@ import java.util.List;
  */
 public class EmployeeManagerImpl extends HibernateDaoSupport implements EmployeeManager {
   @Override
-  public List getEmployees() {
+  public List getHourlyEmployees() {
     List<Employee> result = null;
     Session session = getSessionFactory().openSession();
     Transaction tx = session.beginTransaction();
     try {
       result = session.createQuery("from Employee WHERE employeeCode='H' ORDER BY name").list();
+      tx.commit();
+      return result;
+    } catch (HibernateException e) {
+      tx.rollback();
+      throw e;
+    } finally {
+      session.close();
+    }
+  }
+
+    @Override
+  public List getEmployees() {
+    List<Employee> result = null;
+    Session session = getSessionFactory().openSession();
+    Transaction tx = session.beginTransaction();
+    try {
+      result = session.createQuery("from Employee ORDER BY name").list();
       tx.commit();
       return result;
     } catch (HibernateException e) {

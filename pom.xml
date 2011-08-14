@@ -119,30 +119,30 @@
 
     <plugins>
 
-        <plugin>
-                <groupId>com.dbdeploy</groupId>
-                <artifactId>maven-dbdeploy-plugin</artifactId>
-                <version>3.0M3</version>
+        <!--<plugin>-->
+                <!--<groupId>com.dbdeploy</groupId>-->
+                <!--<artifactId>maven-dbdeploy-plugin</artifactId>-->
+                <!--<version>3.0M3</version>-->
 
-                <configuration>
-                    <scriptdirectory>.</scriptdirectory>
-                    <driver>org.hsqldb.jdbcDriver</driver>
-                    <url>jdbc:hsqldb:file:db/testdb;shutdown=true</url>
-                    <userid>sa</userid>
-                    <password></password>
-                    <dbms>hsql</dbms>
-                    <delimiter>;</delimiter>
-                    <delimiterType>row</delimiterType>
-                </configuration>
+                <!--<configuration>-->
+                    <!--<scriptdirectory>.</scriptdirectory>-->
+                    <!--<driver>org.hsqldb.jdbcDriver</driver>-->
+                    <!--<url>jdbc:hsqldb:file:db/testdb;shutdown=true</url>-->
+                    <!--<userid>sa</userid>-->
+                    <!--<password></password>-->
+                    <!--<dbms>hsql</dbms>-->
+                    <!--<delimiter>;</delimiter>-->
+                    <!--<delimiterType>row</delimiterType>-->
+                <!--</configuration>-->
 
-                <dependencies>
-                    <dependency>
-                        <groupId>org.hsqldb</groupId>
-                        <artifactId>hsqldb</artifactId>
-                        <version>2.2.4</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.hsqldb</groupId>-->
+                        <!--<artifactId>hsqldb</artifactId>-->
+                        <!--<version>2.2.4</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+            <!--</plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

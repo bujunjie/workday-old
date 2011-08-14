@@ -53,9 +53,14 @@ public class MyAspect {
     return retVal;
   }
 
-//  @AfterReturning(pointcut = "execution(* com.junjie.model..*.*(..))", returning = "retVal")
+  @AfterReturning(pointcut = "execution(* com.junjie.model..*.*(..))", returning = "retVal")
     public void logAfterMethod(JoinPoint joinPoint, Object retVal) {
-      log.debug("Method returned:"+retVal);
+    StringBuffer logMessage = new StringBuffer();
+//    logMessage.append(joinPoint.getTarget().getClass().getName());
+//    logMessage.append(".");
+//    logMessage.append(joinPoint.getSignature().getName());
+    logMessage.append("RETURN=").append(retVal);
+    log.debug(logMessage.toString());
     }
 
 }

@@ -2,8 +2,6 @@ package com.junjie;
 
 import com.junjie.model.Employee;
 import com.junjie.model.EmployeeManager;
-import com.junjie.model.Timesheet;
-import com.junjie.model.TimesheetManager;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -11,9 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -42,7 +37,7 @@ public class EmployeeManagerTest extends TestCase {
       list.add(e);
     }
     employeeManager.addAll(list);
-    System.out.println(employeeManager.getEmployees());
+    System.out.println(employeeManager.getHourlyEmployees());
   }
 
 }
