@@ -42,6 +42,7 @@ public class EmployeeManagerTest extends TestCase {
       list.add(e);
     }
     employeeManager.addAll(list);
+    System.out.println(employeeManager.getEmployees());
   }
 
 }

@@ -3,11 +3,13 @@ package com.junjie.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.junjie.model.Department;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
@@ -40,6 +42,9 @@ public class EnterHoursController  {
   private TimesheetManager timesheetManager;
   private DepartmentManager departmentManager;
   private ApplicationSecurityManager applicationSecurityManager;
+  @Autowired
+  MessageSource messageSource;
+
 
   public static final String TID = "tid";
 
@@ -53,19 +58,22 @@ public class EnterHoursController  {
 
   @ModelAttribute("timesheet")
   public Timesheet populateTimesheet(HttpServletRequest request) {
-    Timesheet timesheet = new Timesheet();
-    Employee employee = (Employee) applicationSecurityManager
-      .getEmployee(request);
-    timesheet.setEmployeeId(employee.getEmployeeId());
-    timesheet.setStatusCode("P");
-    timesheet.setPeriodEndingDate(DateUtil.getCurrentPeriodEndingDate());
-    return timesheet;
+        if (request.getParameter(TID) != null
+                && request.getParameter(TID).trim().length() > 0)
+            return timesheetManager.getTimesheet(Integer.parseInt(request
+                    .getParameter(TID)), false);
+
+        Timesheet timesheet = new Timesheet();
+        Employee employee = (Employee) applicationSecurityManager
+                .getEmployee(request);
+        timesheet.setEmployeeId(employee.getEmployeeId());
+        timesheet.setStatusCode("P");
+        timesheet.setPeriodEndingDate(DateUtil.getCurrentPeriodEndingDate());
+        return timesheet;
   }
 
   @RequestMapping(method=RequestMethod.GET)
-  public String setupForm(HttpServletRequest request, HttpServletResponse response,@PathVariable("tid") int tid, ModelMap model) {
-    Timesheet timesheet =  timesheetManager.getTimesheet(tid, false);
-    model.put("timesheet", timesheet);
+  public String setupForm(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
     return "enterhours";
   }
 
@@ -93,7 +101,7 @@ public class EnterHoursController  {
       "message", "Timesheet saved successfully");
 //      getMessageSourceAccessor().getMessage(
 //        "message.enterhours.savesuccess"));
-    return "timesheetlist";
+    return "redirect:timesheetlist.htm";
   }
 
 

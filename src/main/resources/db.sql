@@ -20,6 +20,6 @@ insert into Department values('SA', 'Sales');
 insert into Department values('SP', 'Support');
 
 
-insert into Employee values(1111, 'Junjie Bu', 'H', '1234567890', 0, 'bujunjie@gmail.com');
-insert into Employee values(9999, 'Cindy Bai', 'H', '1234567890', 0, 'cindyxiaobai@gmail.com');
+insert into Employee values(1111, 'Junjie Bu', 'H', '123', 0, 'bujunjie@gmail.com');
+insert into Employee values(2222, 'Cindy Bai', 'H', '123', 0, 'cindyxiaobai@gmail.com');
 

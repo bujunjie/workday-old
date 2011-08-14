@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.junjie.model.Timesheet;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,20 +45,24 @@ public class TimesheetListController {
 
   private final static Logger logger = Logger.getLogger(TimesheetListController.class);
 
+  @ModelAttribute("timesheets")
+  List<Timesheet> populateTimesheets(HttpServletRequest request) {
+    Employee employee = (Employee) applicationSecurityManager.getEmployee(request);
+    List<Timesheet> timesheets = timesheetManager.getTimesheets(employee
+      .getEmployeeId());
+    workdayJmxBean.setTimesheetsFetched(workdayJmxBean.getTimesheetsFetched()
+      + timesheets.size());
+    return timesheets;
+  }
+
   @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView show(HttpServletRequest request,
-                             HttpServletResponse response) throws Exception {
+  public String setupForm(HttpServletRequest request,
+                           HttpServletResponse response) throws Exception {
 //       String number = ServletRequestUtils.getStringParameter(request, "number");
 //       ModelAndView mav = new ModelAndView("/WEB-INF/views/accounts/show.jsp");
 //       mav.addObject("account", accountRepository.findAccount(number));
 //       return mav;
-    Employee employee = (Employee) applicationSecurityManager
-      .getEmployee(request);
-    List timesheets = timesheetManager.getTimesheets(employee
-      .getEmployeeId());
-    workdayJmxBean.setTimesheetsFetched(workdayJmxBean.getTimesheetsFetched()
-      + timesheets.size());
-    return new ModelAndView(successView, MAP_KEY, timesheets);
-    }
+    return "timesheetlist";
+  }
 
 }

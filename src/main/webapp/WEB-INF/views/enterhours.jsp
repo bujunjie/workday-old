@@ -28,7 +28,7 @@
       </tr>
       <tr>
         <td colspan="2" align="center">
-        <center><spring:bind path="command.*">
+        <center><spring:bind path="timesheet.*">
             <c:if test="${not empty status.errorMessages}">
                 <c:forEach var="error" items="${status.errorMessages}">
                     <font color="red"><c:out value="${error}" escapeXml="false" /> </font>
@@ -42,7 +42,7 @@
         </c:if></center>
         </p>
         <p>Period Ending: <fmt:formatDate
-            value="${command.periodEndingDate}" type="date"
+            value="${timesheet.periodEndingDate}" type="date"
             pattern="MMMM dd, yyyy" /></p>
         <table border="1" align="center" cellpadding="8" cellspacing="0">
          <tr>
@@ -57,7 +57,7 @@
              <th>Total</th>
          </tr>
          <tr>
-           <td><spring:bind path="command.departmentCode">
+           <td><spring:bind path="timesheet.departmentCode">
              <select name='<c:out value="${status.expression}"/>'>
                  <option value=""></option>
                 <c:forEach items="${departments}" var="department">
@@ -70,42 +70,42 @@
                </c:forEach>
              </select>
            </spring:bind></td>
-           <td><spring:bind path="command.minutesMon">
+           <td><spring:bind path="timesheet.minutesMon">
                <input name='<c:out value="${status.expression}"/>'
                    value='<c:out value="${status.value}"/>' type="text" size="4"
                    maxlength="6">
            </spring:bind></td>
-           <td><spring:bind path="command.minutesTue">
+           <td><spring:bind path="timesheet.minutesTue">
                <input name='<c:out value="${status.expression}"/>'
                    value='<c:out value="${status.value}"/>' type="text" size="4"
                    maxlength="6">
            </spring:bind></td>
-           <td><spring:bind path="command.minutesWed">
+           <td><spring:bind path="timesheet.minutesWed">
                <input name='<c:out value="${status.expression}"/>'
                    value='<c:out value="${status.value}"/>' type="text" size="4"
                    maxlength="6">
            </spring:bind></td>
-           <td><spring:bind path="command.minutesThu">
+           <td><spring:bind path="timesheet.minutesThu">
                <input name='<c:out value="${status.expression}"/>'
                    value='<c:out value="${status.value}"/>' type="text" size="4"
                    maxlength="6">
            </spring:bind></td>
-           <td><spring:bind path="command.minutesFri">
+           <td><spring:bind path="timesheet.minutesFri">
                <input name='<c:out value="${status.expression}"/>'
                    value='<c:out value="${status.value}"/>' type="text" size="4"
                    maxlength="6">
            </spring:bind></td>
-           <td><spring:bind path="command.minutesSat">
+           <td><spring:bind path="timesheet.minutesSat">
                <input name='<c:out value="${status.expression}"/>'
                    value='<c:out value="${status.value}"/>' type="text" size="4"
                    maxlength="6">
            </spring:bind></td>
-           <td><spring:bind path="command.minutesSun">
+           <td><spring:bind path="timesheet.minutesSun">
                <input name='<c:out value="${status.expression}"/>'
                    value='<c:out value="${status.value}"/>' type="text" size="4"
                    maxlength="6">
            </spring:bind></td>
-           <td><spring:bind path="command.totalMinutes">
+           <td><spring:bind path="timesheet.totalMinutes">
                <c:out value="${status.value}" />
            </spring:bind></td>
           </tr>

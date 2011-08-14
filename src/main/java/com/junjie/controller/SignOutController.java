@@ -23,7 +23,7 @@ public class SignOutController  {
   @RequestMapping(method = RequestMethod.GET)
   public String setupForm(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
     applicationSecurityManager.removeEmployee(httpServletRequest);
-    return "signin";
+    return "redirect:signin.htm";
   }
 
 }

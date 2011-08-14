@@ -39,29 +39,30 @@ public class SignInController {
     return new Employee();
   }
 
-  @RequestMapping(method= RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET)
   public String setupForm(HttpServletRequest request) {
-    if (applicationSecurityManager.getEmployee(request) != null)
-      return "timesheetlist";
-    else
+    if (applicationSecurityManager.getEmployee(request) != null) {
+      return "redirect:timesheetlist.htm";
+    } else {
       return "signin";
+    }
   }
 
   @RequestMapping(method = RequestMethod.POST)
   public String processSubmit(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("employee") Employee employee, BindingResult result, SessionStatus status) {
     new SignInValidator().validate(employee, result);
     if (result.hasErrors()) {
-			return "signin";
-		}
+      return "signin";
+    }
 
     Employee dbEmployee = employeeManager.getEmployeeById(employee.getEmployeeId());
     if (dbEmployee == null || !dbEmployee.getPassword().equalsIgnoreCase(employee.getPassword())) {
-      ObjectError objectError = new ObjectError("employee","error.login.invalid");
+      ObjectError objectError = new ObjectError("employee", "Invalid user name or password");
       result.addError(objectError);
-    } else {
-      workdayJmxBean.setSignInCount(workdayJmxBean.getSignInCount() + 1);
-      applicationSecurityManager.setEmployee(request, dbEmployee);
+      return "signin";
     }
-    return "timesheetlist";
+    workdayJmxBean.setSignInCount(workdayJmxBean.getSignInCount() + 1);
+    applicationSecurityManager.setEmployee(request, dbEmployee);
+    return "redirect:timesheetlist.htm";
   }
 }

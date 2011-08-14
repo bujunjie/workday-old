@@ -60,8 +60,8 @@ public class TimesheetListControllerTest extends TestCase {
     applicationSecurityManager.setEmployee(mockHttpServletRequest,
       employee);
 
-    ModelAndView modelAndView = timesheetListController.show(
-      mockHttpServletRequest, null);
+    ModelAndView modelAndView = new ModelAndView(timesheetListController.setupForm(
+      mockHttpServletRequest, null));
 
     assertNotNull(modelAndView);
     assertNotNull(modelAndView.getModel());

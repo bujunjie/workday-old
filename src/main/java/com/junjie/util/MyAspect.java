@@ -32,16 +32,16 @@ public class MyAspect {
     logMessage.append(joinPoint.getTarget().getClass().getName());
     logMessage.append(".");
     logMessage.append(joinPoint.getSignature().getName());
-    logMessage.append("(\n\t");
+    logMessage.append("(");
     // append args
     Object[] args = joinPoint.getArgs();
     for (int i = 0; i < args.length; i++) {
-      logMessage.append(args[i]).append(",\n\t");
+      logMessage.append(args[i]).append(",");
     }
     if (args.length > 0) {
       logMessage.deleteCharAt(logMessage.length() - 1);
-      if (logMessage.length() > 255) {
-        logMessage.delete(255, logMessage.length()).append("...");
+      if (logMessage.length() > 1024) {
+        logMessage.delete(1024, logMessage.length()).append("...");
       }
     }
 

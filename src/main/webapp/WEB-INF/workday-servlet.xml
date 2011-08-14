@@ -29,13 +29,24 @@
     <property name="suffix" value=".jsp"/>
   </bean>
 
-  <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+  <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+   <property name="interceptors">
+      <ref bean="httpRequestInterceptor" />
+   </property>
+  </bean>
 
   <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 
   <context:component-scan base-package="com.junjie"/>
 
-  <bean id="httpRequestInterceptor" class="com.junjie.controller.HttpRequestInterceptor"/>
+  <bean id="httpRequestInterceptor" class="com.junjie.controller.HttpRequestInterceptor">
+    <property name="allowedUrl">
+      <list>
+        <value>/signout.htm</value>
+        <value>/hello.htm</value>
+      </list>
+    </property>
+    </bean>
 
   <!-- Utility classes -->
   <bean id="applicationSecurityManager" class="com.junjie.util.ApplicationSecurityManager"/>
